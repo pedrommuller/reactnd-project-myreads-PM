@@ -6,10 +6,11 @@ This project requires node and [npm](https://www.npmjs.com/) to run, once in the
 
 ```sh
 npm install
+```
 
 ```sh
 npm start
-
+```
 ### Get Started Immediately
 
 You **don’t** need to install or configure tools like Webpack or Babel.<br>
