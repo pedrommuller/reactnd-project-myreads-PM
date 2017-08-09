@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
 import Bookshelf from './Bookshelf.js'
 
-class Home extends Component {
-
-  render() {
-    return (
+const Home = () => 
+   (
       <div className="list-books">
         <div className="list-books-title">
           <h1>MyReads - Pedro Muller | Aug - 2017</h1>
@@ -22,8 +20,5 @@ class Home extends Component {
         </div>
       </div>
     )
-  }
-
-}
 
 export default Home;

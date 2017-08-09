@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import {Redirect} from 'react-router'
-import _function from 'lodash/function'
+import {debounce} from 'lodash/function'
 import Bookshelf from './Bookshelf.js'
 
-class searchbar extends Component {
+class Searchbar extends Component {
   constructor(props){
     super(props)
     this.handleChange = this.handleChange.bind(this);
     this.handleShelfChange = this.handleShelfChange.bind(this);
-    this.debouncedSearch =  _function.debounce(this.debouncedSearch.bind(this), 400);
+    this.debouncedSearch =  debounce(this.debouncedSearch.bind(this), 400);
     this.state = {
       redirect:false,
       query:''
@@ -62,4 +62,4 @@ class searchbar extends Component {
   }
 }
 
-export default searchbar;
+export default Searchbar;

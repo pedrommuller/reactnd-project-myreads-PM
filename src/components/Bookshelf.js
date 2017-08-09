@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Book from './Book.js'
 import Loader from '../UI/Loader.js'
-import _lang from 'lodash/lang'
-import _collection from 'lodash/collection'
-import _array from 'lodash/array'
+import {isEmpty} from 'lodash/lang'
+import {find, groupBy} from 'lodash/collection'
+import {uniqBy} from 'lodash/array'
 import * as booksAPI from '../BooksAPI.js'
 
 class Bookshelf extends Component {
@@ -52,7 +52,7 @@ class Bookshelf extends Component {
   }
 
   doQuery(query){
-    if(_lang.isEmpty(query)){
+    if(isEmpty(query)){
       this.setState({
         shelves:{},
         loading:false
@@ -70,35 +70,24 @@ class Bookshelf extends Component {
         );
       }else{
         let promises =[]
-        let unique = _array.uniqBy(data,e=>e.id);
+        let unique = uniqBy(data,e=>e.id);
         unique.forEach(e=>{
           if(!e.hasOwnProperty('shelf')){
             e.shelf = 'none';
             promises.push(booksAPI.get(e.id))
           }
-          /*
-          I tried to manage a scoped variable but I lost it on each refresh
-          so I decided to move to a fetch to sync the search and user data
-
-          Object.keys(localDataStore).forEach(key=>{
-            var book = _collection.find(localDataStore[key],(f)=>f.id===e.id);
-            if(!_lang.isEmpty(book)){
-              e.shelf = book.shelf;
-            }
-          });
-          */
         });
 
         Promise.all(promises).then(responses=>{
           unique.forEach(e=>{
-            let book =_collection.find(responses,(f)=>f.id===e.id)
-            if(!_lang.isEmpty(book)){
+            let book = find(responses,(f)=>f.id===e.id)
+            if(!isEmpty(book)){
               e.shelf = book.shelf;
             }
           });
 
           this.setState({
-            shelves: _collection.groupBy(unique,(o)=>o.shelf),
+            shelves: groupBy(unique,(o)=>o.shelf),
             loading:false
           });
         })
@@ -115,7 +104,7 @@ class Bookshelf extends Component {
     }
     booksAPI.getAll().then(data=>{
       this.setState({
-        shelves:_collection.groupBy(data,(o)=>o.shelf),
+        shelves:groupBy(data,(o)=>o.shelf),
         loading:false
       });
 
@@ -130,7 +119,7 @@ class Bookshelf extends Component {
         <Loader />
       );
     }else{
-      if(_lang.isEmpty(shelves)){
+      if(isEmpty(shelves)){
         return (
           <div className="bookshelf">
             <h2 className="bookshelf-title">
