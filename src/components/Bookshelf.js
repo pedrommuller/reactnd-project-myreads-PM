@@ -77,7 +77,7 @@ class Bookshelf extends Component {
             promises.push(booksAPI.get(e.id))
           }
           /*
-          I tried to manage a scoped variable but i lost it on each refresh
+          I tried to manage a scoped variable but I lost it on each refresh
           so I decided to move to a fetch to sync the search and user data
 
           Object.keys(localDataStore).forEach(key=>{
